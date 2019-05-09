@@ -9,12 +9,15 @@ import { query } from './util/index'
 import { compileToFunctions } from './compiler/index'
 import { shouldDecodeNewlines, shouldDecodeNewlinesForHref } from './util/compat'
 
+// 根据id 获取元素的innerHTML
 const idToTemplate = cached(id => {
   const el = query(id)
   return el && el.innerHTML
 })
 
+// 使用mount 变量缓存 Vue.prototype.$mount方法
 const mount = Vue.prototype.$mount
+// 重写 Vue.prototype.$mount 方法
 Vue.prototype.$mount = function (
   el?: string | Element,
   hydrating?: boolean

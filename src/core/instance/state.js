@@ -110,10 +110,12 @@ function initProps (vm: Component, propsOptions: Object) {
 }
 
 function initData (vm: Component) {
+  // 得到data数据
   let data = vm.$options.data
   data = vm._data = typeof data === 'function'
     ? getData(data, vm)
     : data || {}
+   // 判断是否为对象
   if (!isPlainObject(data)) {
     data = {}
     process.env.NODE_ENV !== 'production' && warn(
@@ -137,17 +139,19 @@ function initData (vm: Component) {
         )
       }
     }
+    // 保证data中的key不与props中的key重复，props 优先，如果有冲突会产生warning
     if (props && hasOwn(props, key)) {
       process.env.NODE_ENV !== 'production' && warn(
         `The data property "${key}" is already declared as a prop. ` +
         `Use prop default value instead.`,
         vm
       )
-    } else if (!isReserved(key)) {
-      proxy(vm, `_data`, key)
+    } else if (!isReserved(key)) { // 判读是否保留字段
+      proxy(vm, `_data`, key) // 将data 代理在vm 实例上
     }
   }
   // observe data
+  //  开始对数据进行绑定
   observe(data, true /* asRootData */)
 }
 

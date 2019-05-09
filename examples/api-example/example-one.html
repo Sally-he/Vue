@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Object​.define​Property()</title>
+</head>
+<body>
+    <input type="text" id="a">
+    <div id="b"></div>
+</body>
+<script>
+    /**
+     * Description: 实现 model => view 以及 view => model 双向绑定
+    */
+    var obj = {}
+    Object.defineProperty(obj,'test', {
+        set: (newVal) => {
+            document.getElementById('a').value = newVal
+            document.getElementById('b').innerHTML = newVal
+        },
+    })
+
+    document.addEventListener('keyup',(e)=>{
+        obj.test = e.target.value
+    })
+</script>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+<!-- <script src="./example-one.js"></script> -->
+<script>
+   const obj = {}
+   let val = 'test'
+   Object.defineProperty(obj, 'name', {
+       get(){
+           console.log('------劫持了你的取值操作-----')
+           return val
+        },
+        set(newVal){
+            console.log('--------劫持了你的赋值操作---------')
+            val = newVal
+        }
+   })
+   console.log(obj.name)
+   obj.name = 'hahahah'
+   console.log(obj.name)
+</script>
+</html>
