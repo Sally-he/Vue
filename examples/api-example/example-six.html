@@ -5,35 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+      .bg-color {
+        background: lightskyblue;
+      }
+
+      .size {
+        font-size: 20px;
+      }
+    </style>
 </head>
 <body>
     <div id="app">
-        <input type="text" v-model="text"> <br/>
-        {{text}}
+      <input type="text" v-model="firstInput" />
+      <input type="text" v-model="nested.secondInput" />
+      <p v-class="className" class="bg-color">
+            <b>firstInput: </b> {{ firstInput }}<br/>
+        <span>v-text="nested.secondInput": </span><span v-text="nested.secondInput"></span>
+      </p>
+      <p><b>concatInput: </b>{{ concatInput }}</p>
+      <p v-html="htmlStr"></p>
+      <button class="size" v-on:click="changeSecondInputModel">
+        changeSecondInputModel
+      </button>
     </div>
 </body>
-<script>
-    // function observe(obj, vm){
-    //     Object.keys(obj).forEach((key) => {
-    //         defineReactive(vm, key, obj[key])
-    //     })
-    // } 
-    // function defineReactive(obj,key, val){
-    //     var dep = new Dep()
+<script type="module">
+    import Vue from "./example/Vue.js"
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            firstInput: 'hello',
+            nested: {
+                secondInput: 'World !',
+            },
+            htmlStr: '<span style="color: red;">v-html text</span>',
+            className: 'size',
+        },
+        computed: {
+            concatInput() {
+                return this.firstInput + this.nested.secondInput
+            },
+        },
+        methods: {
+            changeSecondInputModel(e){
+                const randomStrArr = ['one', 'two', 'three']
+                this.nested.secondInput = randomStrArr[parseInt(Math.random() * 3)]
+                this.log('log')
+            },
+            log(str){
+                console.log('this.nested.secondInput: ', this.nested.secondInput)
+                console.log(str + ' this.$options ', this.$options)
+            }
+        }
+    })
 
-    //     Object.defineProperty(obj, key, {
-    //         get(){
-    //             if(Dep.target){
-    //                 dep.addSub
-    //             }
-    //         }
-    //     })
-    // }
-
-    // class Dep {
-    //     constructor(){
-
-    //     }
-    // }
+    vm.$watch('nested.secondInput', (val, oldVal) => {
+        console.log(`nested.secondInput change from ${oldVal} to ${val}`)
+    })
 </script>
 </html>
